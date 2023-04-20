@@ -1,6 +1,7 @@
 #include "jumbo_num.h"
 
 #include <stdlib.h>
+#include <stdbool.h>
 
 struct pfx_02_jumbo_num {
   int x;
@@ -39,6 +40,16 @@ int pfx_02_jumbo_num_mult
 (struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02) {
   jn_01->x *= jn_02->x;
   return 0;
+}
+
+bool pfx_02_jumbo_num_eq
+(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02) {
+  return jn_01->x == jn_02->x;
+}
+
+bool pfx_02_jumbo_num_neq
+(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02) {
+  return jn_01->x != jn_02->x;
 }
 
 void pfx_02_jumbo_num_free

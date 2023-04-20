@@ -1,6 +1,8 @@
 #ifndef JUMBO_NUM_H
 #define JUMBO_NUM_H
 
+#include <stdbool.h>
+
 struct pfx_02_jumbo_num;
 
 struct pfx_02_jumbo_num *
@@ -21,6 +23,12 @@ int pfx_02_jumbo_num_add
 
 /* num mult. */
 int pfx_02_jumbo_num_mult
+(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02);
+
+bool pfx_02_jumbo_num_eq
+(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02);
+
+bool pfx_02_jumbo_num_neq
 (struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02);
 
 void pfx_02_jumbo_num_free

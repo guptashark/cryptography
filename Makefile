@@ -1,6 +1,6 @@
 
 CC = gcc
-CFLAGS = -Wall -Werror -Wextra -std=c89 -pedantic
+CFLAGS = -Wall -Werror -Wextra -std=c99 -pedantic
 INCLUDE = include
 
 all:
