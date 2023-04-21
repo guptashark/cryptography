@@ -100,7 +100,7 @@ bool pfx_02_jumbo_num_neq
 
 void pfx_02_jumbo_num_print
 (struct pfx_02_jumbo_num *jn) {
-  for (size_t i = 0; i < jn->size; ++i) printf("%d", jn->n[i]);
+  for (size_t i = jn->size; i > 0; --i) printf("%d", jn->n[i - 1]);
   printf("\n");
 }
 
