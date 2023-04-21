@@ -63,9 +63,15 @@ int pfx_02_jumbo_num_init_zero
 int pfx_02_jumbo_num_add
 (struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02) {
 
+  int carry = 0;
   // Assume that the sizes are... not the same
   for (size_t i = 0; i < jn_01->size; ++i) {
-    jn_01->n[i] += jn_02->n[i];
+    int d = jn_01->n[i] + jn_02->n[i] + carry;
+    carry = 0;
+    if (d > 9) carry = 1;
+    d %= 10;
+
+    jn_01->n[i] = d;
   }
 
   return 0;
