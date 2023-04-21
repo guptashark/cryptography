@@ -31,6 +31,9 @@ bool pfx_02_jumbo_num_eq
 bool pfx_02_jumbo_num_neq
 (struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02);
 
+void pfx_02_jumbo_num_print
+(struct pfx_02_jumbo_num *jn_01);
+
 void pfx_02_jumbo_num_free
 (struct pfx_02_jumbo_num *jn);
 
