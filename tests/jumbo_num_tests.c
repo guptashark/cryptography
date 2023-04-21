@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-static void test_add() {
+static void test_add_01() {
 
   struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
   struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
@@ -24,6 +24,20 @@ static void test_add() {
   pfx_02_jumbo_num_print(jn_03);
 }
 
+static void test_add_02() {
+
+  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
+  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
+  struct pfx_02_jumbo_num *jn_03 = pfx_02_jumbo_num_new();
+
+  pfx_02_jumbo_num_init(jn_01, 250);
+  pfx_02_jumbo_num_init(jn_02, 251);
+  pfx_02_jumbo_num_init(jn_03, 501);
+
+  pfx_02_jumbo_num_add(jn_01, jn_02);
+  assert(pfx_02_jumbo_num_eq(jn_01, jn_03));
+}
+
 int main(void) {
 
   struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
@@ -37,7 +51,8 @@ int main(void) {
   assert(pfx_02_jumbo_num_eq(jn_01, jn_02));
   assert(pfx_02_jumbo_num_neq(jn_01, jn_03));
 
-  test_add();
+  test_add_01();
+  test_add_02();
 
   return 0;
 }

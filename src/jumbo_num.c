@@ -63,7 +63,7 @@ int pfx_02_jumbo_num_init_zero
 int pfx_02_jumbo_num_add
 (struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02) {
 
-  // Assume that the sizes are the same.
+  // Assume that the sizes are... not the same
   for (size_t i = 0; i < jn_01->size; ++i) {
     jn_01->n[i] += jn_02->n[i];
   }
