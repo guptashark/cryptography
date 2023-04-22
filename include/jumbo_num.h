@@ -19,7 +19,11 @@ int pfx_02_jumbo_num_init_zero
 
 /* num add. */
 int pfx_02_jumbo_num_add
-(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02);
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02,
+  struct pfx_02_jumbo_num *jn_03
+);
 
 /* num mult. */
 int pfx_02_jumbo_num_mult

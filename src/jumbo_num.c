@@ -61,17 +61,36 @@ int pfx_02_jumbo_num_init_zero
 }
 
 int pfx_02_jumbo_num_add
-(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02) {
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02,
+  struct pfx_02_jumbo_num *jn_03
+) {
+
+  // Assume that we don't need to add capacity.
+  size_t size = 0;
+  if (jn_02->size > jn_03->size) {
+    size = jn_02->size;
+  } else {
+    size = jn_03->size;
+  }
 
   int carry = 0;
-  // Assume that the sizes are... not the same
-  for (size_t i = 0; i < jn_01->size; ++i) {
-    int d = jn_01->n[i] + jn_02->n[i] + carry;
+
+  for (size_t i = 0; i < size; ++i) {
+    int d = jn_02->n[i] + jn_03->n[i] + carry;
     carry = 0;
     if (d > 9) carry = 1;
     d %= 10;
 
     jn_01->n[i] = d;
+  }
+
+  if (carry == 1) {
+    jn_01->n[size] = 1;
+    jn_01->size = size + 1;
+  } else {
+    jn_01->size = size;
   }
 
   return 0;
