@@ -4,7 +4,17 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define PFX_02_BIGNUM_DEFAULT_CAPACITY 8
+#define PFX_02_BIGNUM_DEFAULT_CAPACITY 128
+
+// TODO: Add in error cases...
+// Ie, what happens if string is too big?
+// What error codes to return?
+static size_t pfx_02_strlen_safe(char *s, size_t n) {
+  (void)n;
+  size_t i = 0;
+  while (s[i] != '\0') i++;
+  return i;
+}
 
 struct pfx_02_jumbo_num {
   int *n;
@@ -49,6 +59,23 @@ int pfx_02_jumbo_num_init
 
   return 0;
 }
+
+int pfx_02_jumbo_num_init_str
+(struct pfx_02_jumbo_num *jn, char *s) {
+
+  // TODO: Is this possibly dangerous?
+  // Maybe have a limit on the size of s, for bn apps?
+  // TODO: Pick a limit vs just 64.
+  size_t s_len = pfx_02_strlen_safe(s, 64);
+  for (size_t i = 0; i < s_len; ++i) {
+    jn->n[i] = s[s_len - i - 1] - '0';
+  }
+
+  jn->size = s_len;
+
+  return 0;
+}
+
 
 int pfx_02_jumbo_num_init_one
 (struct pfx_02_jumbo_num *jn) {

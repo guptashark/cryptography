@@ -11,6 +11,9 @@ pfx_02_jumbo_num_new(void);
 int pfx_02_jumbo_num_init
 (struct pfx_02_jumbo_num *jn, int n);
 
+int pfx_02_jumbo_num_init_str
+(struct pfx_02_jumbo_num *jn, char *n);
+
 int pfx_02_jumbo_num_init_one
 (struct pfx_02_jumbo_num *jn);
 
