@@ -20,6 +20,12 @@ int pfx_02_jumbo_num_init_one
 int pfx_02_jumbo_num_init_zero
 (struct pfx_02_jumbo_num *jn);
 
+int pfx_02_jumbo_num_copy
+(
+  struct pfx_02_jumbo_num *jn_dst,
+  struct pfx_02_jumbo_num *jn_src
+);
+
 /* num add. */
 int pfx_02_jumbo_num_add
 (

@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdbool.h>
 
 #define PFX_02_BIGNUM_DEFAULT_CAPACITY 128
@@ -43,6 +44,29 @@ pfx_02_jumbo_num_new(void) {
   return jn;
 }
 
+// TODO: Currently we just assume that this works, when the malloc
+// might actually fail. Testable by creating a custom allocator.
+static int pfx_02_jumbo_num_reserve
+(
+  struct pfx_02_jumbo_num *jn,
+  size_t capacity
+) {
+  if (jn->capacity >= capacity) {
+    // Uhh, should we do a goto?
+    return 0;
+  }
+
+  jn->capacity = capacity;
+  int *m = malloc(sizeof(int) * jn->capacity);
+  memset(m, 0, jn->capacity);
+
+  for (size_t i = 0; i < jn->capacity; ++i) m[i] = jn->n[i];
+  free(jn->n);
+  jn->n = m;
+
+  return 0;
+}
+
 int pfx_02_jumbo_num_init
 (struct pfx_02_jumbo_num *jn, int n) {
 
@@ -76,7 +100,6 @@ int pfx_02_jumbo_num_init_str
   return 0;
 }
 
-
 int pfx_02_jumbo_num_init_one
 (struct pfx_02_jumbo_num *jn) {
   return pfx_02_jumbo_num_init(jn, 1);
@@ -85,6 +108,22 @@ int pfx_02_jumbo_num_init_one
 int pfx_02_jumbo_num_init_zero
 (struct pfx_02_jumbo_num *jn) {
   return pfx_02_jumbo_num_init(jn, 0);
+}
+
+int pfx_02_jumbo_num_copy
+(
+  struct pfx_02_jumbo_num *jn_dst,
+  struct pfx_02_jumbo_num *jn_src
+) {
+
+  // For now, the rule is that size can be the same as capacity
+  if (jn_dst->capacity < jn_src->size) {
+    pfx_02_jumbo_num_reserve(jn_dst, jn_src->size);
+  }
+
+  for (size_t i = 0; i < jn_src->size; ++i) jn_dst[i] = jn_src[i];
+  jn_dst->size = jn_src->size;
+  return 0;
 }
 
 int pfx_02_jumbo_num_add
