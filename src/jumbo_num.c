@@ -2,7 +2,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
 #include <stdbool.h>
 
 #define PFX_02_BIGNUM_DEFAULT_CAPACITY 128
@@ -58,7 +57,6 @@ static int pfx_02_jumbo_num_reserve
 
   jn->capacity = capacity;
   int *m = malloc(sizeof(int) * jn->capacity);
-  memset(m, 0, jn->capacity);
 
   for (size_t i = 0; i < jn->capacity; ++i) m[i] = jn->n[i];
   free(jn->n);
