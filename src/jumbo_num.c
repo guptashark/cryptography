@@ -68,6 +68,13 @@ static int pfx_02_jumbo_num_reserve
 int pfx_02_jumbo_num_init
 (struct pfx_02_jumbo_num *jn, int n) {
 
+  // TODO: Can we do Single Entry Single Exit? (SESE)
+  if (n == 0) {
+    jn->size = 1;
+    jn->n[0] = 0;
+    return 0;
+  }
+
   int i = 0;
   while (n > 0) {
     int d = n % 10;
@@ -89,6 +96,9 @@ int pfx_02_jumbo_num_init_str
   // Maybe have a limit on the size of s, for bn apps?
   // TODO: Pick a limit vs just 64.
   size_t s_len = pfx_02_strlen_safe(s, 64);
+
+  // TODO: Reserve by multiples of 8.
+  pfx_02_jumbo_num_reserve(jn, s_len);
   for (size_t i = 0; i < s_len; ++i) {
     jn->n[i] = s[s_len - i - 1] - '0';
   }
@@ -119,7 +129,7 @@ int pfx_02_jumbo_num_copy
     pfx_02_jumbo_num_reserve(jn_dst, jn_src->size);
   }
 
-  for (size_t i = 0; i < jn_src->size; ++i) jn_dst[i] = jn_src[i];
+  for (size_t i = 0; i < jn_src->size; ++i) jn_dst->n[i] = jn_src->n[i];
   jn_dst->size = jn_src->size;
   return 0;
 }
@@ -131,7 +141,6 @@ int pfx_02_jumbo_num_add
   struct pfx_02_jumbo_num *jn_03
 ) {
 
-  // Assume that we don't need to add capacity.
   size_t size = 0;
   if (jn_02->size > jn_03->size) {
     size = jn_02->size;
@@ -139,10 +148,18 @@ int pfx_02_jumbo_num_add
     size = jn_03->size;
   }
 
+  // TODO: Reserve by multiples of 8...
+  pfx_02_jumbo_num_reserve(jn_01, size + 1);
+
   int carry = 0;
 
   for (size_t i = 0; i < size; ++i) {
-    int d = jn_02->n[i] + jn_03->n[i] + carry;
+    int d = 0;
+
+    if (i < jn_02->size) d += jn_02->n[i];
+    if (i < jn_03->size) d += jn_03->n[i];
+    d += carry;
+
     carry = 0;
     if (d > 9) carry = 1;
     d %= 10;
