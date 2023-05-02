@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-#define PFX_02_BIGNUM_DEFAULT_CAPACITY 128
+#define PFX_02_BIGNUM_DEFAULT_CAPACITY 8
 
 // TODO: Add in error cases...
 // Ie, what happens if string is too big?
