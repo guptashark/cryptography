@@ -178,9 +178,39 @@ int pfx_02_jumbo_num_add
 }
 
 int pfx_02_jumbo_num_mult
-(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02) {
-  (void)jn_01;
-  (void)jn_02;
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02,
+  struct pfx_02_jumbo_num *jn_03
+) {
+
+  pfx_02_jumbo_num_reserve(jn_01, jn_02->size + jn_03->size);
+
+  // Special case where we have to zero out the memory.
+  for (size_t i = 0; i < jn_02->size + jn_03->size; ++i) jn_01->n[i] = 0;
+
+  for (size_t i = 0; i < jn_02->size; ++i) {
+    for (size_t j = 0; j < jn_03->size; ++j) {
+      jn_01->n[i + j] += jn_02->n[i] * jn_03->n[j];
+      // printf("%d ", jn_02->n[i] * jn_03->n[j]);
+    }
+    // printf("\n");
+  }
+
+  // Now take care of overflows.
+  int carry = 0;
+  size_t i = 0;
+
+  while (jn_01->n[i] != 0 || carry != 0) {
+    // printf("jn_01->n[i]: %d\n", jn_01->n[i]);
+    int d = (jn_01->n[i] + carry) % 10;
+    carry = jn_01->n[i] / 10;
+    jn_01->n[i] = d;
+    i++;
+  }
+
+  jn_01->size = i;
+
   return 0;
 }
 
