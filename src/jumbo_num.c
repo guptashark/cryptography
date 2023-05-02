@@ -192,24 +192,23 @@ int pfx_02_jumbo_num_mult
   for (size_t i = 0; i < jn_02->size; ++i) {
     for (size_t j = 0; j < jn_03->size; ++j) {
       jn_01->n[i + j] += jn_02->n[i] * jn_03->n[j];
-      // printf("%d ", jn_02->n[i] * jn_03->n[j]);
     }
-    // printf("\n");
   }
 
   // Now take care of overflows.
   int carry = 0;
-  size_t i = 0;
 
-  while (jn_01->n[i] != 0 || carry != 0) {
-    // printf("jn_01->n[i]: %d\n", jn_01->n[i]);
+  for (size_t i = 0; i < jn_02->size + jn_03->size; ++i) {
     int d = (jn_01->n[i] + carry) % 10;
-    carry = jn_01->n[i] / 10;
+    carry = (jn_01->n[i] + carry) / 10;
     jn_01->n[i] = d;
-    i++;
   }
 
-  jn_01->size = i;
+  if (jn_01->n[jn_02->size + jn_03->size - 1] == 0) {
+    jn_01->size = jn_02->size + jn_03->size - 1;
+  } else {
+    jn_01->size = jn_02->size + jn_03->size;
+  }
 
   return 0;
 }

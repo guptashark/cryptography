@@ -1,6 +1,7 @@
 #include "jumbo_num.h"
 
 #include <assert.h>
+#include <stdio.h>
 
 static void test_add(int a, int b, int expected) {
   struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
@@ -107,7 +108,13 @@ int main(void) {
       "999999999999999999999999999999999999999999999999999999",
       "1000000000000000000000000000000000000000000000000000000");
 
-  test_mult(123, 123, 123 * 123);
+  test_mult(168, 168, 168 * 168);
+
+  for (int i = 1; i < 300; ++i) {
+    for (int j = 1; j < 300; ++j) {
+      test_mult(i, j, i * j);
+    }
+  }
 
   return 0;
 }
