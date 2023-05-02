@@ -184,6 +184,13 @@ int pfx_02_jumbo_num_mult
   struct pfx_02_jumbo_num *jn_03
 ) {
 
+  // If either number is zero, we can shortcut.
+  // Would be nice to do Single Entry Single Exit.
+  if (pfx_02_jumbo_num_eq_zero(jn_02) || pfx_02_jumbo_num_eq_zero(jn_03)) {
+    pfx_02_jumbo_num_init_zero(jn_01);
+    return 0;
+  }
+
   pfx_02_jumbo_num_reserve(jn_01, jn_02->size + jn_03->size);
 
   // Special case where we have to zero out the memory.
@@ -231,6 +238,15 @@ bool pfx_02_jumbo_num_eq
 bool pfx_02_jumbo_num_neq
 (struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02) {
   return !pfx_02_jumbo_num_eq(jn_01, jn_02);
+}
+
+bool pfx_02_jumbo_num_eq_zero
+(struct pfx_02_jumbo_num *jn) {
+  if (jn->size == 1 && jn->n[0] == 0) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 void pfx_02_jumbo_num_print
