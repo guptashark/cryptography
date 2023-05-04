@@ -51,10 +51,16 @@ int pfx_02_jumbo_num_subt
 );
 
 bool pfx_02_jumbo_num_eq
-(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02);
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02
+);
 
 bool pfx_02_jumbo_num_neq
-(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02);
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02
+);
 
 bool pfx_02_jumbo_num_eq_zero
 (struct pfx_02_jumbo_num *jn);

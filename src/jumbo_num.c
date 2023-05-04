@@ -261,7 +261,10 @@ int pfx_02_jumbo_num_subt
 }
 
 bool pfx_02_jumbo_num_eq
-(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02) {
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02
+) {
 
   bool matching = true;
   if (jn_01->size != jn_02->size) matching = false;
@@ -277,7 +280,10 @@ bool pfx_02_jumbo_num_eq
 }
 
 bool pfx_02_jumbo_num_neq
-(struct pfx_02_jumbo_num *jn_01, struct pfx_02_jumbo_num *jn_02) {
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02
+) {
   return !pfx_02_jumbo_num_eq(jn_01, jn_02);
 }
 
