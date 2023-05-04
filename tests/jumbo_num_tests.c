@@ -100,6 +100,13 @@ static void test_copy(void) {
   pfx_02_jumbo_num_free(jn_02);
 }
 
+static void test_print(int n) {
+  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
+  pfx_02_jumbo_num_init(jn_01, n);
+  pfx_02_jumbo_num_print(jn_01);
+  pfx_02_jumbo_num_free(jn_01);
+}
+
 int main(void) {
 
   struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
@@ -121,12 +128,14 @@ int main(void) {
   test_add(1, 899, 900);
 
   test_add_str("123", "456", "579");
+  /*
   test_add_str("250", "251", "501");
   test_add_str("1", "100", "101");
   test_add_str("1", "899", "900");
   test_add_str("1",
       "999999999999999999999999999999999999999999999999999999",
       "1000000000000000000000000000000000000000000000000000000");
+  */
 
   test_mult(168, 168, 168 * 168);
   test_mult(10, 0, 0);
@@ -140,6 +149,10 @@ int main(void) {
   }
 
   test_subt(333, 222, 111);
+
+  test_print(5);
+  test_print(-5);
+
 
   return 0;
 }

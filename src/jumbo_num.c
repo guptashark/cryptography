@@ -18,6 +18,7 @@ static size_t pfx_02_strlen_safe(char *s, size_t n) {
 
 struct pfx_02_jumbo_num {
   int *n;
+  int8_t sign;
   size_t capacity;
   size_t size;
 };
@@ -72,7 +73,15 @@ int pfx_02_jumbo_num_init
   if (n == 0) {
     jn->size = 1;
     jn->n[0] = 0;
+    jn->sign = 1;
     return 0;
+  }
+
+  if (n > 0) {
+    jn->sign = 1;
+  } else {
+    jn->sign = -1;
+    n *= -1;
   }
 
   int i = 0;
@@ -91,6 +100,10 @@ int pfx_02_jumbo_num_init
 
 int pfx_02_jumbo_num_init_str
 (struct pfx_02_jumbo_num *jn, char *s) {
+
+  // TODO Need to actually parse the string to check for negative.
+  // For now, assume it's a positive number.
+  jn->sign = 1;
 
   // TODO: Is this possibly dangerous?
   // Maybe have a limit on the size of s, for bn apps?
@@ -131,6 +144,7 @@ int pfx_02_jumbo_num_copy
 
   for (size_t i = 0; i < jn_src->size; ++i) jn_dst->n[i] = jn_src->n[i];
   jn_dst->size = jn_src->size;
+  jn_dst->sign = jn_src->sign;
   return 0;
 }
 
@@ -174,27 +188,7 @@ int pfx_02_jumbo_num_add
     jn_01->size = size;
   }
 
-  return 0;
-}
-
-int pfx_02_jumbo_num_subt
-(
-  struct pfx_02_jumbo_num *jn_01,
-  struct pfx_02_jumbo_num *jn_02,
-  struct pfx_02_jumbo_num *jn_03
-) {
-
-  // For now, assume the following:
-  //  * jn_02.size == jn_03.size
-  //  * jn_02 > jn_03
-  //  * jn_02->n[i] > jn_03->n[i]
-
-  pfx_02_jumbo_num_reserve(jn_01, jn_02->size);
-  for (size_t i = 0; i < jn_02->size; ++i) {
-    jn_01->n[i] = jn_02->n[i] - jn_03->n[i];
-  }
-
-  jn_01->size = jn_02->size;
+  jn_01->sign = 1;
 
   return 0;
 }
@@ -239,6 +233,30 @@ int pfx_02_jumbo_num_mult
     jn_01->size = jn_02->size + jn_03->size;
   }
 
+  jn_01->sign = 1;
+
+  return 0;
+}
+
+int pfx_02_jumbo_num_subt
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02,
+  struct pfx_02_jumbo_num *jn_03
+) {
+
+  // For now, assume the following:
+  //  * jn_02.size == jn_03.size
+  //  * jn_02 > jn_03
+  //  * jn_02->n[i] > jn_03->n[i]
+
+  pfx_02_jumbo_num_reserve(jn_01, jn_02->size);
+  for (size_t i = 0; i < jn_02->size; ++i) {
+    jn_01->n[i] = jn_02->n[i] - jn_03->n[i];
+  }
+
+  jn_01->size = jn_02->size;
+
   return 0;
 }
 
@@ -247,6 +265,7 @@ bool pfx_02_jumbo_num_eq
 
   bool matching = true;
   if (jn_01->size != jn_02->size) matching = false;
+  if (jn_01->sign != jn_02->sign) matching = false;
 
   size_t i = 0;
   while (i < jn_01->size && matching) {
@@ -273,6 +292,7 @@ bool pfx_02_jumbo_num_eq_zero
 
 void pfx_02_jumbo_num_print
 (struct pfx_02_jumbo_num *jn) {
+  if (jn->sign == -1) printf("-");
   for (size_t i = jn->size; i > 0; --i) printf("%d", jn->n[i - 1]);
   printf("\n");
 }
