@@ -338,6 +338,28 @@ bool pfx_02_jumbo_num_lt
   }
 }
 
+// greater than or equal to
+bool pfx_02_jumbo_num_geq
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02
+) {
+  if (pfx_02_jumbo_num_eq(jn_01, jn_02)) return true;
+  if (pfx_02_jumbo_num_gt(jn_01, jn_02)) return true;
+  return false;
+}
+
+// less than or equal to
+bool pfx_02_jumbo_num_leq
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02
+) {
+  if (pfx_02_jumbo_num_eq(jn_01, jn_02)) return true;
+  if (pfx_02_jumbo_num_lt(jn_01, jn_02)) return true;
+  return false;
+}
+
 void pfx_02_jumbo_num_print
 (struct pfx_02_jumbo_num *jn) {
   if (jn->sign == -1) printf("-");
