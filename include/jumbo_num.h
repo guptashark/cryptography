@@ -59,6 +59,12 @@ bool pfx_02_jumbo_num_neq
 bool pfx_02_jumbo_num_eq_zero
 (struct pfx_02_jumbo_num *jn);
 
+bool pfx_02_jumbo_num_gt
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02
+);
+
 void pfx_02_jumbo_num_print
 (struct pfx_02_jumbo_num *jn_01);
 
