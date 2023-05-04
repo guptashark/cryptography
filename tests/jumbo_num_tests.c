@@ -63,6 +63,26 @@ static void test_mult(int a, int b, int expected) {
   pfx_02_jumbo_num_free(jn_04);
 }
 
+static void test_subt(int a, int b, int expected) {
+  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
+  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
+  struct pfx_02_jumbo_num *jn_03 = pfx_02_jumbo_num_new();
+  struct pfx_02_jumbo_num *jn_04 = pfx_02_jumbo_num_new();
+
+  pfx_02_jumbo_num_init(jn_01, 0);
+  pfx_02_jumbo_num_init(jn_02, a);
+  pfx_02_jumbo_num_init(jn_03, b);
+  pfx_02_jumbo_num_init(jn_04, expected);
+
+  pfx_02_jumbo_num_subt(jn_01, jn_02, jn_03);
+  assert(pfx_02_jumbo_num_eq(jn_01, jn_04));
+
+  pfx_02_jumbo_num_free(jn_01);
+  pfx_02_jumbo_num_free(jn_02);
+  pfx_02_jumbo_num_free(jn_03);
+  pfx_02_jumbo_num_free(jn_04);
+}
+
 static void test_copy(void) {
   struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
   struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
@@ -118,6 +138,8 @@ int main(void) {
       test_mult(i, j, i * j);
     }
   }
+
+  test_subt(333, 222, 111);
 
   return 0;
 }

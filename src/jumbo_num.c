@@ -177,6 +177,28 @@ int pfx_02_jumbo_num_add
   return 0;
 }
 
+int pfx_02_jumbo_num_subt
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02,
+  struct pfx_02_jumbo_num *jn_03
+) {
+
+  // For now, assume the following:
+  //  * jn_02.size == jn_03.size
+  //  * jn_02 > jn_03
+  //  * jn_02->n[i] > jn_03->n[i]
+
+  pfx_02_jumbo_num_reserve(jn_01, jn_02->size);
+  for (size_t i = 0; i < jn_02->size; ++i) {
+    jn_01->n[i] = jn_02->n[i] - jn_03->n[i];
+  }
+
+  jn_01->size = jn_02->size;
+
+  return 0;
+}
+
 int pfx_02_jumbo_num_mult
 (
   struct pfx_02_jumbo_num *jn_01,
