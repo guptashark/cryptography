@@ -314,6 +314,30 @@ bool pfx_02_jumbo_num_gt
   }
 }
 
+bool pfx_02_jumbo_num_lt
+(
+  struct pfx_02_jumbo_num *jn_01,
+  struct pfx_02_jumbo_num *jn_02
+) {
+  // TODO Implement for when the numbers have signs.
+  if (jn_01->size > jn_02->size) return false;
+  if (jn_01->size < jn_02->size) return true;
+
+  size_t i = jn_01->size;
+
+  int diff = 0;
+  while (i > 0 && diff == 0) {
+    diff = jn_01->n[i] - jn_02->n[i];
+    i--;
+  }
+
+  if (diff > 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
 void pfx_02_jumbo_num_print
 (struct pfx_02_jumbo_num *jn) {
   if (jn->sign == -1) printf("-");

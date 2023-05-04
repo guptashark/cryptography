@@ -97,6 +97,20 @@ static void test_gt(int a, int b) {
   pfx_02_jumbo_num_free(jn_02);
 }
 
+static void test_lt(int a, int b) {
+  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
+  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
+
+  pfx_02_jumbo_num_init(jn_01, a);
+  pfx_02_jumbo_num_init(jn_02, b);
+
+  bool actual = pfx_02_jumbo_num_lt(jn_01, jn_02);
+  assert((a < b) == actual);
+
+  pfx_02_jumbo_num_free(jn_01);
+  pfx_02_jumbo_num_free(jn_02);
+}
+
 static void test_copy(void) {
   struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
   struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
@@ -158,6 +172,9 @@ int main(void) {
 
   test_gt(20, 10);
   test_gt(10, 20);
+
+  test_lt(20, 10);
+  test_lt(10, 20);
 
   for (int i = 1; i < 300; ++i) {
     for (int j = 1; j < 300; ++j) {
