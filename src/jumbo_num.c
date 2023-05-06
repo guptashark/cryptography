@@ -250,12 +250,21 @@ int pfx_02_jumbo_num_subt
   //  * jn_02 > jn_03
   //  * jn_02->n[i] > jn_03->n[i]
 
-  pfx_02_jumbo_num_reserve(jn_01, jn_02->size);
-  for (size_t i = 0; i < jn_02->size; ++i) {
-    jn_01->n[i] = jn_02->n[i] - jn_03->n[i];
+  struct pfx_02_jumbo_num *a = jn_02;
+  struct pfx_02_jumbo_num *b = jn_03;
+
+  if (pfx_02_jumbo_num_lt(jn_02, jn_03)) {
+    a = jn_03;
+    b = jn_02;
+    jn_01->sign = -1;
   }
 
-  jn_01->size = jn_02->size;
+  pfx_02_jumbo_num_reserve(jn_01, jn_02->size);
+  for (size_t i = 0; i < a->size; ++i) {
+    jn_01->n[i] = a->n[i] - b->n[i];
+  }
+
+  jn_01->size = a->size;
 
   return 0;
 }

@@ -183,6 +183,7 @@ int main(void) {
   }
 
   test_subt(333, 222, 111);
+  test_subt(222, 333, -111);
 
   test_print(5);
   test_print(-5);
