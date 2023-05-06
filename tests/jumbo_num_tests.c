@@ -180,6 +180,10 @@ int main(void) {
   test_lt(20, 10);
   test_lt(10, 20);
 
+  test_lt(10, -20);
+  test_lt(-20, 10);
+  test_lt(-10, -20);
+
   for (int i = 1; i < 300; ++i) {
     for (int j = 1; j < 300; ++j) {
       test_mult(i, j, i * j);

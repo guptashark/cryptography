@@ -310,7 +310,6 @@ bool pfx_02_jumbo_num_gt
   struct pfx_02_jumbo_num *jn_01,
   struct pfx_02_jumbo_num *jn_02
 ) {
-  // TODO Implement for when the numbers have signs.
   if (jn_01->sign == 1 && jn_02->sign == -1) return true;
   if (jn_01->sign == -1 && jn_02->sign == 1) return false;
 
@@ -343,7 +342,15 @@ bool pfx_02_jumbo_num_lt
   struct pfx_02_jumbo_num *jn_01,
   struct pfx_02_jumbo_num *jn_02
 ) {
-  // TODO Implement for when the numbers have signs.
+  if (jn_01->sign == -1 && jn_02->sign == 1) return true;
+  if (jn_01->sign == 1 && jn_02->sign == -1) return false;
+
+  if (jn_01->sign == -1 && jn_02->sign == -1) {
+    jn_01->sign = 1;
+    jn_02->sign = 1;
+    return pfx_02_jumbo_num_lt(jn_02, jn_01);
+  }
+
   if (jn_01->size > jn_02->size) return false;
   if (jn_01->size < jn_02->size) return true;
 
