@@ -173,6 +173,10 @@ int main(void) {
   test_gt(20, 10);
   test_gt(10, 20);
 
+  test_gt(10, -20);
+  test_gt(-20, 10);
+  test_gt(-10, -20);
+
   test_lt(20, 10);
   test_lt(10, 20);
 
