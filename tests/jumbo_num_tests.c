@@ -105,10 +105,35 @@ static void test_lt(int a, int b) {
   pfx_02_jumbo_num_init(jn_02, b);
 
   bool actual = pfx_02_jumbo_num_lt(jn_01, jn_02);
-  // assert((a < b) == actual);
-  if (a < b != actual) {
-    printf("%d %d %d\n", a, b, actual);
-  }
+  assert((a < b) == actual);
+
+  pfx_02_jumbo_num_free(jn_01);
+  pfx_02_jumbo_num_free(jn_02);
+}
+
+static void test_geq(int a, int b) {
+  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
+  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
+
+  pfx_02_jumbo_num_init(jn_01, a);
+  pfx_02_jumbo_num_init(jn_02, b);
+
+  bool actual = pfx_02_jumbo_num_geq(jn_01, jn_02);
+  assert((a >= b) == actual);
+
+  pfx_02_jumbo_num_free(jn_01);
+  pfx_02_jumbo_num_free(jn_02);
+}
+
+static void test_leq(int a, int b) {
+  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
+  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
+
+  pfx_02_jumbo_num_init(jn_01, a);
+  pfx_02_jumbo_num_init(jn_02, b);
+
+  bool actual = pfx_02_jumbo_num_leq(jn_01, jn_02);
+  assert((a <= b) == actual);
 
   pfx_02_jumbo_num_free(jn_01);
   pfx_02_jumbo_num_free(jn_02);
@@ -180,6 +205,18 @@ int main(void) {
   for (int i = -100; i < 100; ++i) {
     for (int j = -100; j < 100; ++j) {
       test_lt(i, j);
+    }
+  }
+
+  for (int i = -100; i < 100; ++i) {
+    for (int j = -100; j < 100; ++j) {
+      test_geq(i, j);
+    }
+  }
+
+  for (int i = -100; i < 100; ++i) {
+    for (int j = -100; j < 100; ++j) {
+      test_leq(i, j);
     }
   }
 
