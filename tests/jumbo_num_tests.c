@@ -83,12 +83,14 @@ static void test_subt(int a, int b, int expected) {
   pfx_02_jumbo_num_free(jn_04);
 }
 
+static bool fn_eq(int a, int b) { return a == b; }
+static bool fn_neq(int a, int b) { return a != b; }
 static bool fn_gt(int a, int b) { return a > b; }
 static bool fn_lt(int a, int b) { return a < b; }
 static bool fn_geq(int a, int b) { return a >= b; }
 static bool fn_leq(int a, int b) { return a <= b; }
 
-static void test_inequality
+static void test_relation
 (
   bool (*f)(int, int),
   bool (*jn_f)(struct pfx_02_jumbo_num *, struct pfx_02_jumbo_num *),
@@ -135,17 +137,6 @@ static void test_print(int n) {
 
 int main(void) {
 
-  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_03 = pfx_02_jumbo_num_new();
-
-  pfx_02_jumbo_num_init(jn_01, 5);
-  pfx_02_jumbo_num_init(jn_02, 5);
-  pfx_02_jumbo_num_init(jn_03, 6);
-
-  assert(pfx_02_jumbo_num_eq(jn_01, jn_02));
-  assert(pfx_02_jumbo_num_neq(jn_01, jn_03));
-
   test_copy();
 
   test_add(123, 456, 579);
@@ -168,10 +159,12 @@ int main(void) {
 
   for (int i = -100; i < 100; ++i) {
     for (int j = -100; j < 100; ++j) {
-      test_inequality(fn_gt, pfx_02_jumbo_num_gt, i, j);
-      test_inequality(fn_lt, pfx_02_jumbo_num_lt, i, j);
-      test_inequality(fn_geq, pfx_02_jumbo_num_geq, i, j);
-      test_inequality(fn_leq, pfx_02_jumbo_num_leq, i, j);
+      test_relation(fn_eq, pfx_02_jumbo_num_eq, i, j);
+      test_relation(fn_neq, pfx_02_jumbo_num_neq, i, j);
+      test_relation(fn_gt, pfx_02_jumbo_num_gt, i, j);
+      test_relation(fn_lt, pfx_02_jumbo_num_lt, i, j);
+      test_relation(fn_geq, pfx_02_jumbo_num_geq, i, j);
+      test_relation(fn_leq, pfx_02_jumbo_num_leq, i, j);
     }
   }
 
