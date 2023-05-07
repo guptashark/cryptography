@@ -326,7 +326,7 @@ bool pfx_02_jumbo_num_gt
 
   int diff = 0;
   while (i > 0 && diff == 0) {
-    diff = jn_01->n[i] - jn_02->n[i];
+    diff = jn_01->n[i - 1] - jn_02->n[i - 1];
     i--;
   }
 
@@ -358,14 +358,14 @@ bool pfx_02_jumbo_num_lt
 
   int diff = 0;
   while (i > 0 && diff == 0) {
-    diff = jn_01->n[i] - jn_02->n[i];
+    diff = jn_01->n[i - 1] - jn_02->n[i - 1];
     i--;
   }
 
-  if (diff > 0) {
-    return false;
-  } else {
+  if (diff < 0) {
     return true;
+  } else {
+    return false;
   }
 }
 

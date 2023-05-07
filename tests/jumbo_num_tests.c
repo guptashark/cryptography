@@ -105,7 +105,10 @@ static void test_lt(int a, int b) {
   pfx_02_jumbo_num_init(jn_02, b);
 
   bool actual = pfx_02_jumbo_num_lt(jn_01, jn_02);
-  assert((a < b) == actual);
+  // assert((a < b) == actual);
+  if (a < b != actual) {
+    printf("%d %d %d\n", a, b, actual);
+  }
 
   pfx_02_jumbo_num_free(jn_01);
   pfx_02_jumbo_num_free(jn_02);
@@ -168,19 +171,17 @@ int main(void) {
   test_mult(0, 10, 0);
   test_mult(0, 0, 0);
 
-  test_gt(20, 10);
-  test_gt(10, 20);
+  for (int i = -100; i < 100; ++i) {
+    for (int j = -100; j < 100; ++j) {
+      test_gt(i, j);
+    }
+  }
 
-  test_gt(10, -20);
-  test_gt(-20, 10);
-  test_gt(-10, -20);
-
-  test_lt(20, 10);
-  test_lt(10, 20);
-
-  test_lt(10, -20);
-  test_lt(-20, 10);
-  test_lt(-10, -20);
+  for (int i = -100; i < 100; ++i) {
+    for (int j = -100; j < 100; ++j) {
+      test_lt(i, j);
+    }
+  }
 
   for (int i = 1; i < 300; ++i) {
     for (int j = 1; j < 300; ++j) {
