@@ -83,57 +83,27 @@ static void test_subt(int a, int b, int expected) {
   pfx_02_jumbo_num_free(jn_04);
 }
 
-static void test_gt(int a, int b) {
+static bool fn_gt(int a, int b) { return a > b; }
+static bool fn_lt(int a, int b) { return a < b; }
+static bool fn_geq(int a, int b) { return a >= b; }
+static bool fn_leq(int a, int b) { return a <= b; }
+
+static void test_inequality
+(
+  bool (*f)(int, int),
+  bool (*jn_f)(struct pfx_02_jumbo_num *, struct pfx_02_jumbo_num *),
+  int a,
+  int b
+) {
   struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
   struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
 
   pfx_02_jumbo_num_init(jn_01, a);
   pfx_02_jumbo_num_init(jn_02, b);
 
-  bool actual = pfx_02_jumbo_num_gt(jn_01, jn_02);
-  assert((a > b) == actual);
-
-  pfx_02_jumbo_num_free(jn_01);
-  pfx_02_jumbo_num_free(jn_02);
-}
-
-static void test_lt(int a, int b) {
-  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
-
-  pfx_02_jumbo_num_init(jn_01, a);
-  pfx_02_jumbo_num_init(jn_02, b);
-
-  bool actual = pfx_02_jumbo_num_lt(jn_01, jn_02);
-  assert((a < b) == actual);
-
-  pfx_02_jumbo_num_free(jn_01);
-  pfx_02_jumbo_num_free(jn_02);
-}
-
-static void test_geq(int a, int b) {
-  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
-
-  pfx_02_jumbo_num_init(jn_01, a);
-  pfx_02_jumbo_num_init(jn_02, b);
-
-  bool actual = pfx_02_jumbo_num_geq(jn_01, jn_02);
-  assert((a >= b) == actual);
-
-  pfx_02_jumbo_num_free(jn_01);
-  pfx_02_jumbo_num_free(jn_02);
-}
-
-static void test_leq(int a, int b) {
-  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
-
-  pfx_02_jumbo_num_init(jn_01, a);
-  pfx_02_jumbo_num_init(jn_02, b);
-
-  bool actual = pfx_02_jumbo_num_leq(jn_01, jn_02);
-  assert((a <= b) == actual);
+  bool expected = f(a, b);
+  bool actual = jn_f(jn_01, jn_02);
+  assert(expected == actual);
 
   pfx_02_jumbo_num_free(jn_01);
   pfx_02_jumbo_num_free(jn_02);
@@ -198,25 +168,10 @@ int main(void) {
 
   for (int i = -100; i < 100; ++i) {
     for (int j = -100; j < 100; ++j) {
-      test_gt(i, j);
-    }
-  }
-
-  for (int i = -100; i < 100; ++i) {
-    for (int j = -100; j < 100; ++j) {
-      test_lt(i, j);
-    }
-  }
-
-  for (int i = -100; i < 100; ++i) {
-    for (int j = -100; j < 100; ++j) {
-      test_geq(i, j);
-    }
-  }
-
-  for (int i = -100; i < 100; ++i) {
-    for (int j = -100; j < 100; ++j) {
-      test_leq(i, j);
+      test_inequality(fn_gt, pfx_02_jumbo_num_gt, i, j);
+      test_inequality(fn_lt, pfx_02_jumbo_num_lt, i, j);
+      test_inequality(fn_geq, pfx_02_jumbo_num_geq, i, j);
+      test_inequality(fn_leq, pfx_02_jumbo_num_leq, i, j);
     }
   }
 
