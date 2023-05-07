@@ -152,11 +152,6 @@ int main(void) {
       "999999999999999999999999999999999999999999999999999999",
       "1000000000000000000000000000000000000000000000000000000");
 
-  test_mult(168, 168, 168 * 168);
-  test_mult(10, 0, 0);
-  test_mult(0, 10, 0);
-  test_mult(0, 0, 0);
-
   for (int i = -100; i < 100; ++i) {
     for (int j = -100; j < 100; ++j) {
       test_relation(fn_eq, pfx_02_jumbo_num_eq, i, j);
@@ -168,8 +163,8 @@ int main(void) {
     }
   }
 
-  for (int i = 1; i < 300; ++i) {
-    for (int j = 1; j < 300; ++j) {
+  for (int i = 0; i < 300; ++i) {
+    for (int j = 0; j < 300; ++j) {
       test_mult(i, j, i * j);
     }
   }
