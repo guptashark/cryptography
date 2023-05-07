@@ -3,7 +3,20 @@
 #include <assert.h>
 #include <stdio.h>
 
-static void test_add(int a, int b) {
+static int fn_add(int a, int b) { return a + b; }
+static int fn_subt(int a, int b) { return a - b; }
+static int fn_mult(int a, int b) { return a * b; }
+
+static void test_binary_op
+(
+  int (*f)(int, int),
+  int (*jn_fn)(
+    struct pfx_02_jumbo_num *,
+    struct pfx_02_jumbo_num *,
+    struct pfx_02_jumbo_num *),
+  int a,
+  int b
+) {
   struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
   struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
   struct pfx_02_jumbo_num *jn_03 = pfx_02_jumbo_num_new();
@@ -12,9 +25,9 @@ static void test_add(int a, int b) {
   pfx_02_jumbo_num_init(jn_01, 0);
   pfx_02_jumbo_num_init(jn_02, a);
   pfx_02_jumbo_num_init(jn_03, b);
-  pfx_02_jumbo_num_init(jn_04, a + b);
+  pfx_02_jumbo_num_init(jn_04, f(a, b));
 
-  pfx_02_jumbo_num_add(jn_01, jn_02, jn_03);
+  jn_fn(jn_01, jn_02, jn_03);
   assert(pfx_02_jumbo_num_eq(jn_01, jn_04));
 
   pfx_02_jumbo_num_free(jn_01);
@@ -23,6 +36,7 @@ static void test_add(int a, int b) {
   pfx_02_jumbo_num_free(jn_04);
 }
 
+// This function can't be abstracted away like the others right now.
 static void test_add_str(char *a, char *b, char *expected) {
   struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
   struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
@@ -35,46 +49,6 @@ static void test_add_str(char *a, char *b, char *expected) {
   pfx_02_jumbo_num_init_str(jn_04, expected);
 
   pfx_02_jumbo_num_add(jn_01, jn_02, jn_03);
-  assert(pfx_02_jumbo_num_eq(jn_01, jn_04));
-
-  pfx_02_jumbo_num_free(jn_01);
-  pfx_02_jumbo_num_free(jn_02);
-  pfx_02_jumbo_num_free(jn_03);
-  pfx_02_jumbo_num_free(jn_04);
-}
-
-static void test_mult(int a, int b) {
-  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_03 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_04 = pfx_02_jumbo_num_new();
-
-  pfx_02_jumbo_num_init(jn_01, 0);
-  pfx_02_jumbo_num_init(jn_02, a);
-  pfx_02_jumbo_num_init(jn_03, b);
-  pfx_02_jumbo_num_init(jn_04, a * b);
-
-  pfx_02_jumbo_num_mult(jn_01, jn_02, jn_03);
-  assert(pfx_02_jumbo_num_eq(jn_01, jn_04));
-
-  pfx_02_jumbo_num_free(jn_01);
-  pfx_02_jumbo_num_free(jn_02);
-  pfx_02_jumbo_num_free(jn_03);
-  pfx_02_jumbo_num_free(jn_04);
-}
-
-static void test_subt(int a, int b) {
-  struct pfx_02_jumbo_num *jn_01 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_02 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_03 = pfx_02_jumbo_num_new();
-  struct pfx_02_jumbo_num *jn_04 = pfx_02_jumbo_num_new();
-
-  pfx_02_jumbo_num_init(jn_01, 0);
-  pfx_02_jumbo_num_init(jn_02, a);
-  pfx_02_jumbo_num_init(jn_03, b);
-  pfx_02_jumbo_num_init(jn_04, a - b);
-
-  pfx_02_jumbo_num_subt(jn_01, jn_02, jn_03);
   assert(pfx_02_jumbo_num_eq(jn_01, jn_04));
 
   pfx_02_jumbo_num_free(jn_01);
@@ -160,13 +134,13 @@ int main(void) {
 
   for (int i = 0; i < 300; ++i) {
     for (int j = 0; j < 300; ++j) {
-      test_add(i, j);
-      test_mult(i, j);
+      test_binary_op(fn_add, pfx_02_jumbo_num_add, i, j);
+      test_binary_op(fn_mult, pfx_02_jumbo_num_mult,i, j);
     }
   }
 
-  test_subt(333, 222);
-  test_subt(222, 333);
+  test_binary_op(fn_subt, pfx_02_jumbo_num_subt, 333, 222);
+  test_binary_op(fn_subt, pfx_02_jumbo_num_subt, 222, 333);
 
   test_print(5);
   test_print(-5);
